@@ -47,7 +47,7 @@ Note: In it's current state you will need to provide your own Pixlee API key in 
 
 When instantiating a new HoneycombGallery, provide the following information in an options object
 
-- `apiUrl` *(string)* The base URL directing to your Pixlee account. Ex: 'http://api.pixlee.com/v1/-USERNAME-/albums/'
+- `apiUrl` *(string)* The base URL directing to your Pixlee account. Ex: "api.pixlee.com/v1/-USERNAME-/albums/"
 
 - `apiKey` *(string)* Your unique Pixlee API key
 
