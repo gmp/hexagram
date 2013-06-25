@@ -8,18 +8,6 @@ var HoneycombGallery;
   };
   window.onload = zeroOut;
 
-  // Pixlee API information
-  var pixleeInfo = {
-
-    api: "http://api.pixlee.com/v1/HackReactor/albums/",
-
-    ajaxData: {
-      per_page: 100,
-      page: 1,
-      sort: 'recent'
-    }
-  };
-
   HoneycombGallery = function(options) {
 
     // extend default options with options provided by user
@@ -81,7 +69,11 @@ var HoneycombGallery;
     // w = h * sqrt(3)
     // to account for padding we simply add it to our width
     this.dimensions.hexWidth = (this.dimensions.hexHeight * Math.sqrt(3)) + this.options.padding;
-    this.getImages(pixleeInfo.api, this.renderHoneycomb, this.options.albumID, this.options.apiKey, pixleeInfo.ajaxData);
+    this.getImages(pixleeInfo.api, this.renderHoneycomb, this.options.albumID, this.options.apiKey, {
+      per_page: 100,
+      page: 1,
+      sort: 'recent'
+    });
 
     // allow the page 2 seconds to load before starting auto-scroll
     setTimeout(function(){
@@ -97,7 +89,11 @@ var HoneycombGallery;
 
     // get recent images from server every 5 minutes
     setInterval(function() {
-      self.getImages(pixleeInfo.api, self.addToHoneyComb, self.options.albumID, self.options.apiKey, pixleeInfo.ajaxData);
+      self.getImages(pixleeInfo.api, self.addToHoneyComb, self.options.albumID, self.options.apiKey, {
+      per_page: 100,
+      page: 1,
+      sort: 'recent'
+    });
     }, (60000 * 5));
 
   };
