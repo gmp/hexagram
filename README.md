@@ -47,7 +47,9 @@ Note: In it's current state you will need to provide your own Pixlee API key in 
 
 When instantiating a new HoneycombGallery, provide the following information in an options object
 
-- `api_key` *(string)* Your unique Pixlee API key
+- `apiUrl` *(string)* The base URL directing to your Pixlee account. Ex: 'http://api.pixlee.com/v1/-USERNAME-/albums/'
+
+- `apiKey` *(string)* Your unique Pixlee API key
 
 - `albumID` *(number)* The album ID of the Pixlee album you'd like to display
 
@@ -77,8 +79,11 @@ When instantiating a new HoneycombGallery, provide the following information in 
 ### Example:
 
     new HoneycombGallery({
-      apiKey: '', //must enter valid Pixlee API key!
-      albumID: 1242,
+      apiUrl: '', // required
+      apiKey: '', // required
+      albumID: 1242, // required,
+      numRows: 7,
+      padding: 0,
       hashtag: 'sfgiants',
       feature: false,
       highRes: true,

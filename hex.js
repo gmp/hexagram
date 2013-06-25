@@ -29,6 +29,7 @@ var HoneycombGallery;
 
   // default options
   HoneycombGallery.prototype.options = {
+    apiUrl: '',
     apiKey: '',
     scrollSpeed: 'slow',
     allowVideo: true,
@@ -69,7 +70,7 @@ var HoneycombGallery;
     // w = h * sqrt(3)
     // to account for padding we simply add it to our width
     this.dimensions.hexWidth = (this.dimensions.hexHeight * Math.sqrt(3)) + this.options.padding;
-    this.getImages(pixleeInfo.api, this.renderHoneycomb, this.options.albumID, this.options.apiKey, {
+    this.getImages(this.options.apiUrl, this.renderHoneycomb, this.options.albumID, this.options.apiKey, {
       per_page: 100,
       page: 1,
       sort: 'recent'
@@ -89,7 +90,7 @@ var HoneycombGallery;
 
     // get recent images from server every 5 minutes
     setInterval(function() {
-      self.getImages(pixleeInfo.api, self.addToHoneyComb, self.options.albumID, self.options.apiKey, {
+      self.getImages(self.options.apiUrl, self.addToHoneyComb, self.options.albumID, self.options.apiKey, {
       per_page: 100,
       page: 1,
       sort: 'recent'
