@@ -1,0 +1,27 @@
+<html>
+<head>
+  <title>honeycomb.js</title>
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
+  <link href="http://netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" href="hex-min.css">
+  <script src="hex.js"></script>
+</head>
+<body>
+  <div class="honeycomb"></div>
+  <div class="highlight">
+    <div class="featured">
+    </div>
+  </div>
+  <script>
+    new HoneycombGallery({
+      apiKey: '', //must enter API key!
+      albumID: 1242,
+      hashtag: 'sfgiants',
+      topRow: {
+        backgroundOne: 'url(http://images.ak.instagram.com/profiles/profile_6150408_75sq_1359997984.jpg)',
+        backgroundTwo: '#ff6e00'
+      }
+    });
+  </script>
+</body>
+</html>

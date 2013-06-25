@@ -77,6 +77,7 @@ When instantiating a new HoneycombGallery, provide the following information in 
 ### Example:
 
     new HoneycombGallery({
+      apiKey: '', //must enter valid Pixlee API key!
       albumID: 1242,
       hashtag: 'sfgiants',
       feature: false,
@@ -102,6 +103,8 @@ Example:
 
 ---
 ### Feature Roadmap:
+
+- Generalize for ease of use with any collection of images
 
 - Minor style tweaks:
   - Font size dependant on window size
