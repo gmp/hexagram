@@ -29,8 +29,6 @@ var HoneycombGallery;
 
   // default options
   HoneycombGallery.prototype.options = {
-    apiUrl: '',
-    apiKey: '',
     scrollSpeed: 'slow',
     allowVideo: true,
     highRes: false,
@@ -70,11 +68,8 @@ var HoneycombGallery;
     // w = h * sqrt(3)
     // to account for padding we simply add it to our width
     this.dimensions.hexWidth = (this.dimensions.hexHeight * Math.sqrt(3)) + this.options.padding;
-    this.getImages(this.options.apiUrl, this.renderHoneycomb, this.options.albumID, this.options.apiKey, {
-      per_page: 100,
-      page: 1,
-      sort: 'recent'
-    });
+
+    this.getImages(this.renderHoneycomb);
 
     // allow the page 2 seconds to load before starting auto-scroll
     setTimeout(function(){
@@ -89,39 +84,34 @@ var HoneycombGallery;
     }
 
     // get recent images from server every 5 minutes
-    setInterval(function() {
-      self.getImages(self.options.apiUrl, self.addToHoneyComb, self.options.albumID, self.options.apiKey, {
-      per_page: 100,
-      page: 1,
-      sort: 'recent'
-    });
-    }, (60000 * 5));
+    // setInterval(function() {
+    //   self.getImages(self.options.apiUrl, self.addToHoneyComb, self.options.albumID, self.options.apiKey, {
+    //   per_page: 100,
+    //   page: 1,
+    //   sort: 'recent'
+    // });
+    // }, (60000 * 5));
 
   };
 
 
-  HoneycombGallery.prototype.getImages = function(url, callback, albumID, key, data) {
+  HoneycombGallery.prototype.getImages = function(callback, data) {
 
     // context for success function
     var self = this;
 
-    // data to send along with request
+    // setup of data object
     data = data || {};
-
-    // concatenate Pixlee API with requested albumID
-    url += albumID;
-    url += '?api_key='+key;
 
     // jQuery ajax request with callback on success
     // set honeycomb image collection to response
     $.ajax({
-      url: url,
+      url: '/api' + window.location.pathname,
       data: data,
-      dataType: 'jsonp',
       success: function(response){
         console.log(response);
-        self._imgCollection = response.data;
-        callback.call(self, response.data);
+        self._imgCollection.concat(response.media);
+        callback.call(self, response.media);
       },
       error: function(error) {
         console.log(error);
@@ -191,7 +181,7 @@ var HoneycombGallery;
         media = images[counter];
 
         // filter media urls and element types based on available options
-        if (this.options.allowVideo && media.photo.type === 'video') {
+        if (this.options.allowVideo && media.type === 'video') {
           // set photo source to 'instagram' instead of 'instagram-video' for icon class
           media.photo.photo_source = 'instagram';
           hexHtml += '<div class="hexagon" style="width:'+this.dimensions.hexWidth+'px; height:'+this.dimensions.hexHeight+'px">'+
@@ -203,8 +193,8 @@ var HoneycombGallery;
                         ' </div>'+
                       ' </div>';
           counter++;
-        } else if (!this.options.highRes || media.photo.type === 'video') {
-          if (media.photo.type === 'video') {
+        } else if (!this.options.highRes || media.type === 'video') {
+          if (media.type === 'video') {
             // set photo source to 'instagram' instead of 'instagram-video' for icon class
             media.photo.photo_source = 'instagram';
           }
@@ -291,7 +281,7 @@ var HoneycombGallery;
 
         // select next image or video from collection and create row
         media = images[counter];
-        if (this.options.allowVideo && media.photo.type === 'video') {
+        if (this.options.allowVideo && media.type === 'video') {
           media.photo.photo_source = 'instagram';
           hexHtml += '<div class="hexagon" style="width:'+this.dimensions.hexWidth+'px; height:'+this.dimensions.hexHeight+'px">'+
                          '<div class="hex-inner1">'+
@@ -302,8 +292,8 @@ var HoneycombGallery;
                         ' </div>'+
                       ' </div>';
           counter++;
-        } else if (!this.options.highRes || media.photo.type === 'video') {
-          if (media.photo.type === 'video') {
+        } else if (!this.options.highRes || media.type === 'video') {
+          if (media.type === 'video') {
             media.photo.photo_source = 'instagram';
           }
           hexHtml += '<div class="hexagon" style="width:'+this.dimensions.hexWidth+'px; height:'+this.dimensions.hexHeight+'px">'+
@@ -374,7 +364,7 @@ var HoneycombGallery;
       this.$honeycomb.css({'opacity': 0.3});
 
       // if media is image
-      if (media.photo.type === "image") {
+      if (media.type === "image") {
 
         // setup img element
         $media = $('<img>').attr('src', media.photo.photo_url)
@@ -392,7 +382,7 @@ var HoneycombGallery;
         }, 5000);
 
       // if media is video
-      } else if (media.photo.type === "video") {
+      } else if (media.type === "video") {
 
         // setup video element
         $media = $('<video autoplay>');
