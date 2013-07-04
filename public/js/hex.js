@@ -23,8 +23,9 @@ var HoneycombGallery;
     // collection of current images
     this._imgCollection = [];
 
-    // pagination URL for getting more images
-    this.paginationUrl = null;
+    // IG limits response media to 20 at a time 
+    // this is a request counter to submit n subsequent requests for images
+    this.requestCounter = 10;
 
     // initialize honeycomb
     this.init();
@@ -33,6 +34,7 @@ var HoneycombGallery;
 
   // default options
   HoneycombGallery.prototype.options = {
+    hashtag: window.location.pathname.substring(1),
     scrollSpeed: 'slow',
     allowVideo: true,
     highRes: false,
@@ -87,12 +89,10 @@ var HoneycombGallery;
       }, 10000);
     }
 
-    // get more images from server to fill honeycomb
-    for (var i = 0; i < 10; i++) {
-      setTimeout(function() {
-        self.getImages(self.addToHoneyComb, {next: this.paginationUrl});
-      }, i * 1000);
-    }
+    // setInterval to restart get more images process every 5 minutes
+    setInterval(function() {
+      self.getImages(self.addToHoneyComb);
+    }, 60000 * 5);
   };
 
 
@@ -111,9 +111,12 @@ var HoneycombGallery;
       data: data,
       success: function(response){
         console.log(response);
-        self.paginationUrl = response.next_url;
         self._imgCollection = self._imgCollection.concat(response.media);
         callback.call(self, response.media);
+        if (self.requestCounter) {
+          self.getImages(self.addToHoneyComb, {url: response.next_url});
+          self.requestCounter--;
+        }
       },
       error: function(error) {
         console.log(error);
