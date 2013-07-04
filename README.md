@@ -3,18 +3,15 @@ honeycomb.js
 
 >"Wow! Check out that super sweet honeycomb image gallery!" <cite>--Everyone</cite>
 
-A fullscreen, scrolling honeycomb-style image collage hooked up with Pixlee's API (http://www.pixlee.com/)
-
-Note: In it's current state you will need to provide your own Pixlee API key in options (see below)
+A fullscreen, scrolling honeycomb-style image collage hooked up with the Instagram API
 
 ---
 ### HowTo honeycomb in 3 easy steps:
 
-1. Set up the head:
+1. Set up the `head`:
 
     ```html
     <head>
-      <title>honeycomb.js</title>
       <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
       <link href="http://netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
       <link rel="stylesheet" type="text/css" href="hex.css">
@@ -22,7 +19,7 @@ Note: In it's current state you will need to provide your own Pixlee API key in 
     </head>
     ```
 
-2. Rub the body right:
+2. Add some skelton to the `body`:
 
     ```html
     <body>
@@ -33,7 +30,7 @@ Note: In it's current state you will need to provide your own Pixlee API key in 
     </body>
     ```
 
-3. Tell that computer you want a new HoneycombGallery (see options below)
+3. Add a new HoneycombGallery to your page (see options below):
 
     ```html
       <script>
