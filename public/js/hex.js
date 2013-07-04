@@ -23,8 +23,12 @@ var HoneycombGallery;
     // collection of current images
     this._imgCollection = [];
 
+    // pagination URL for getting more images
+    this.paginationUrl = null;
+
     // initialize honeycomb
     this.init();
+
   };
 
   // default options
@@ -83,15 +87,12 @@ var HoneycombGallery;
       }, 10000);
     }
 
-    // get recent images from server every 5 minutes
-    // setInterval(function() {
-    //   self.getImages(self.options.apiUrl, self.addToHoneyComb, self.options.albumID, self.options.apiKey, {
-    //   per_page: 100,
-    //   page: 1,
-    //   sort: 'recent'
-    // });
-    // }, (60000 * 5));
-
+    // get more images from server to fill honeycomb
+    for (var i = 0; i < 10; i++) {
+      setTimeout(function() {
+        self.getImages(self.addToHoneyComb, {next: this.paginationUrl});
+      }, i * 1000);
+    }
   };
 
 
@@ -110,7 +111,8 @@ var HoneycombGallery;
       data: data,
       success: function(response){
         console.log(response);
-        self._imgCollection.concat(response.media);
+        self.paginationUrl = response.next_url;
+        self._imgCollection = self._imgCollection.concat(response.media);
         callback.call(self, response.media);
       },
       error: function(error) {
@@ -122,6 +124,7 @@ var HoneycombGallery;
 
   HoneycombGallery.prototype.renderHoneycomb = function(images) {
     var media,
+        mediaUrl,
         $row,
         hexHtml,
         topRowBG,
@@ -182,26 +185,21 @@ var HoneycombGallery;
 
         // filter media urls and element types based on available options
         if (this.options.allowVideo && media.type === 'video') {
-          // set photo source to 'instagram' instead of 'instagram-video' for icon class
-          media.photo.photo_source = 'instagram';
           hexHtml += '<div class="hexagon" style="width:'+this.dimensions.hexWidth+'px; height:'+this.dimensions.hexHeight+'px">'+
                          '<div class="hex-inner1">'+
                            '<div class="hex-inner2">'+
-                             '<span class="overlay bottom-right username"><i class="icon-'+media.photo.photo_source+'"></i> @'+media.photo.photo_submitter+'</span>'+
-                             '<video class="background" src="'+media.photo.photo_url+'" preload="auto" loop autoplay muted>'+
+                             '<span class="overlay bottom-right username"><i class="icon-instagram"></i> @'+media.user.username+'</span>'+
+                             '<video class="background" src="'+media.videos.low_resolution.url+'" preload="auto" loop autoplay muted>'+
                            '</div>'+
                         ' </div>'+
                       ' </div>';
           counter++;
         } else if (!this.options.highRes || media.type === 'video') {
-          if (media.type === 'video') {
-            // set photo source to 'instagram' instead of 'instagram-video' for icon class
-            media.photo.photo_source = 'instagram';
-          }
+          mediaUrl = media.type === 'video' ? media.videos.low_resolution.url : media.images.thumbnail.url;
           hexHtml += '<div class="hexagon" style="width:'+this.dimensions.hexWidth+'px; height:'+this.dimensions.hexHeight+'px">'+
                          '<div class="hex-inner1">'+
-                           '<div class="hex-inner2" style="background-image: url('+media.photo.thumbnail_url+')">'+
-                             '<span class="overlay bottom-right username"><i class="icon-'+media.photo.photo_source+'"></i> @'+media.photo.photo_submitter+'</span>'+
+                           '<div class="hex-inner2" style="background-image: url('+mediaUrl+')">'+
+                             '<span class="overlay bottom-right username"><i class="icon-instagram"></i> @'+media.user.username+'</span>'+
                            '</div>'+
                         ' </div>'+
                       ' </div>';
@@ -209,8 +207,8 @@ var HoneycombGallery;
         } else {
           hexHtml += '<div class="hexagon" style="width:'+this.dimensions.hexWidth+'px; height:'+this.dimensions.hexHeight+'px">'+
                          '<div class="hex-inner1">'+
-                           '<div class="hex-inner2" style="background-image: url('+media.photo.photo_url+')">'+
-                             '<span class="overlay bottom-right username"><i class="icon-'+media.photo.photo_source+'"></i> @'+media.photo.photo_submitter+'</span>'+
+                           '<div class="hex-inner2" style="background-image: url('+media.images.low_resolution.url+')">'+
+                             '<span class="overlay bottom-right username"><i class="icon-instagram"></i> @'+media.user.username+'</span>'+
                            '</div>'+
                         ' </div>'+
                       ' </div>';
@@ -282,24 +280,21 @@ var HoneycombGallery;
         // select next image or video from collection and create row
         media = images[counter];
         if (this.options.allowVideo && media.type === 'video') {
-          media.photo.photo_source = 'instagram';
           hexHtml += '<div class="hexagon" style="width:'+this.dimensions.hexWidth+'px; height:'+this.dimensions.hexHeight+'px">'+
                          '<div class="hex-inner1">'+
                            '<div class="hex-inner2">'+
-                             '<span class="overlay bottom-right username"><i class="icon-'+media.photo.photo_source+'"></i> @'+media.photo.photo_submitter+'</span>'+
-                             '<video class="background" src="'+media.photo.photo_url+'" preload="auto" loop autoplay muted>'+
+                             '<span class="overlay bottom-right username"><i class="icon-instagram"></i> @'+media.user.username+'</span>'+
+                             '<video class="background" src="'+media.videos.low_resolution.url+'" preload="auto" loop autoplay muted>'+
                            '</div>'+
                         ' </div>'+
                       ' </div>';
           counter++;
         } else if (!this.options.highRes || media.type === 'video') {
-          if (media.type === 'video') {
-            media.photo.photo_source = 'instagram';
-          }
+          mediaUrl = media.type === 'video' ? media.videos.low_resolution.url : media.images.thumbnail.url;
           hexHtml += '<div class="hexagon" style="width:'+this.dimensions.hexWidth+'px; height:'+this.dimensions.hexHeight+'px">'+
                          '<div class="hex-inner1">'+
-                           '<div class="hex-inner2" style="background-image: url('+media.photo.thumbnail_url+')">'+
-                             '<span class="overlay bottom-right username"><i class="icon-'+media.photo.photo_source+'"></i> @'+media.photo.photo_submitter+'</span>'+
+                           '<div class="hex-inner2" style="background-image: url('+mediaUrl+')">'+
+                             '<span class="overlay bottom-right username"><i class="icon-instagram"></i> @'+media.user.username+'</span>'+
                            '</div>'+
                         ' </div>'+
                       ' </div>';
@@ -307,8 +302,8 @@ var HoneycombGallery;
         } else {
           hexHtml += '<div class="hexagon" style="width:'+this.dimensions.hexWidth+'px; height:'+this.dimensions.hexHeight+'px">'+
                          '<div class="hex-inner1">'+
-                           '<div class="hex-inner2" style="background-image: url('+media.photo.photo_url+')">'+
-                             '<span class="overlay bottom-right username"><i class="icon-'+media.photo.photo_source+'"></i> @'+media.photo.photo_submitter+'</span>'+
+                           '<div class="hex-inner2" style="background-image: url('+media.images.low_resolutions.url+')">'+
+                             '<span class="overlay bottom-right username"><i class="icon-instagram"></i> @'+media.user.username+'</span>'+
                            '</div>'+
                         ' </div>'+
                       ' </div>';
@@ -327,17 +322,14 @@ var HoneycombGallery;
   HoneycombGallery.prototype.electricSlide = function() {
     var scrollBy, millis;
     if (this.options.scrollSpeed === "slow") {
-      scrollBy = 1;
       millis = 50;
     } else if (this.options.scrollSpeed === "medium") {
-      scrollBy = 1;
       millis = 25;
     } else if (this.options.scrollSpeed === "fast") {
-      scrollBy = 1;
       millis = 10;
     }
     window.slide = setInterval(function() {
-      window.scrollBy(scrollBy, 0);
+      window.scrollBy(1, 0);
     }, millis);
   };
 
@@ -352,12 +344,12 @@ var HoneycombGallery;
           media = this._imgCollection[random],
           rotate = Math.floor(Math.random() * 2) ? Math.random() * 11 : Math.random() * -11,
           $media,
-          $username = $('<div class="overlay featured-username"><i class="icon-'+media.photo.photo_source+'"></i> @'+media.photo.photo_submitter+'</div>'),
+          $username = $('<div class="overlay featured-username"><i class="icon-instagram"></i> @'+media.user.username+'</div>'),
           $description = '';
 
       // if media has a description create description element
-      if (media.photo.title) {
-        $description = $('<p class="overlay image-description">'+media.photo.title+'</p>');
+      if (media.caption.text) {
+        $description = $('<p class="overlay image-description">'+media.caption.text+'</p>');
       }
 
       // fade out background
@@ -367,7 +359,7 @@ var HoneycombGallery;
       if (media.type === "image") {
 
         // setup img element
-        $media = $('<img>').attr('src', media.photo.photo_url)
+        $media = $('<img>').attr('src', media.images.standard_resolution.url)
                            .css({'height': (this.dimensions.windowHeight * 0.7)});
 
         // set timeout to end highlight in 5 seconds and begin another in 10 seconds
@@ -386,7 +378,7 @@ var HoneycombGallery;
 
         // setup video element
         $media = $('<video autoplay>');
-        $media.attr('src', media.photo.photo_url)
+        $media.attr('src', media.videos.standard_resolution.url)
               .css({'height': (this.dimensions.windowHeight * 0.7)})
               // listen for video to end before stopping highlight and setting another to begin in 10 seconds
               .on('ended', function() {
