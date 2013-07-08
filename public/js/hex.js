@@ -34,7 +34,7 @@ var HoneycombGallery;
 
   // default options
   HoneycombGallery.prototype.options = {
-    hashtag: window.location.pathname.substring(1),
+    hashtag: window.location.pathname.substr(1),
     scrollSpeed: 'slow',
     allowVideo: true,
     highRes: false,
