@@ -46,6 +46,22 @@
     input:focus, textarea:focus {
       outline: none;
     }
+
+    .hashtag-container {
+      overflow: scroll;
+      max-height: 60%;
+    }
+
+    .tag {
+      display: inline-block;
+      margin: 1em;
+      font-size: 1.5em;
+    }
+
+    a {
+      text-decoration: none;
+      color: whitesmoke;
+    }
   </style>
 </head>
 <body>
@@ -62,6 +78,7 @@
 </html>
 
 <script>
+  var tag;
   var timeout;
   var $hashtag = $('#hashtag');
   var $tagContainer = $('#hashtag-container');
@@ -82,7 +99,10 @@
   var renderTags = function(tags) {
     $tagContainer.empty();
     tags.forEach(function(tag) {
-      $('<p class="tag">').text('#' + tag.name).appendTo($tagContainer);
+      var $p = $('<p class="tag">');
+      var $link = $('<a>').attr('href', '/'+tag.name).text('#' + tag.name);
+      $link.appendTo($p);
+      $p.appendTo($tagContainer);
     });
   }
 
@@ -98,7 +118,6 @@
     if (text.length > 5) {
       window.clearTimeout(timeout);
       text = text.slice(1);
-      console.log('2', text);
       wait300(getTags, text, renderTags);
     } else if (text.length === 0) {
       window.clearTimeout(timeout);
