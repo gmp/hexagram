@@ -16,8 +16,8 @@ var HoneycombGallery;
     return;
   };
 
-  var rows = getQueryParam('rows') || 5;
-  var pad = getQueryParam('pad') || 10;
+  var rows = Number(getQueryParam('rows')) || 5;
+  var pad = Number(getQueryParam('pad')) || 10;
   var bg1 = getQueryParam('bg1');
   var bg2 = getQueryParam('bg2');
   bg1 = bg1 ? ('#' + bg1) : 'rgba(0,0,0,0.8)';
