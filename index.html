@@ -1,7 +1,7 @@
 <html>
 <head>
   <title>Hexagram</title>
-  <link href="/favicon.ico" rel="icon" type="image/x-icon" />
+  <link href="/images/favicon.ico" rel="icon" type="image/x-icon" />
   <link rel="stylesheet" type="text/css" href="http://necolas.github.io/normalize.css/2.1.2/normalize.css" />
   <link href="http://netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
   <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
@@ -143,7 +143,7 @@
   <div class="container">
     <div class="hashtag-form">
       <h3>Enter a hashtag to search for images</h3>
-      <form action="/hex" method="get" class="hashtagSelection">
+      <form action="/" method="GET" class="hashtagSelection" onsubmit="handleSubmit(); return false;">
         <input type="text" id="hashtag" name="hashtag" placeholder="#" autocomplete="off" autofocus /><br>
       </form>
     </div>
@@ -204,18 +204,21 @@
         tags.forEach(function(tag) {
           var $p = $('<p class="tag">');
           var $link = $('<a>').attr({'href': '/'+tag.name}).text('#' + tag.name);
-          $link.onclick = 'handleClick()';
           $link.appendTo($p);
           $p.appendTo($tagContainer);
         });
       }
     }
 
-    var handleClick = function(evt) {
-      evt.preventDefault();
+    var handleSubmit = function(evt) {
 
-      var target =  evt.currentTarget;
-      var url = target.href;
+      if (evt) {
+        evt.preventDefault();
+      }
+
+      var hashtag = $hashtag.val();
+      hashtag = hashtag.slice(1);
+      var url = '' + hashtag;
       var rows = $('#rows').val();
       var pad = $('#pad').val();
       var bg1 = $('#bg1').val();
@@ -251,7 +254,7 @@
       $settings.toggleClass('dark');
     });
 
-    $tagContainer.on('click', 'a', handleClick);
+    $tagContainer.on('click', 'a', handleSubmit);
 
   </script>
 </body>
