@@ -22,7 +22,6 @@
       text-align: center;
       background-color: black;
       color: whitesmoke;
-      text-shadow: #684F3F 2px 2px;
     }
 
     .container {
@@ -36,6 +35,7 @@
       padding-bottom: 1em;
       padding-top: 1em;
       font-weight: normal;
+      text-shadow: #684F3F 2px 2px;
     }
 
     input[type=text] {
@@ -63,6 +63,7 @@
       display: inline-block;
       margin: 1em;
       font-size: 1.5em;
+      text-shadow: #684F3F 2px 2px;
     }
 
     a {
@@ -77,6 +78,7 @@
       text-align: right;
       -webkit-transition-property: 'top';
       -webkit-transition-duration: 0.5s;
+      text-shadow: #684F3F 2px 2px;
     }
 
     .show {
@@ -96,7 +98,7 @@
       border-top-right-radius: 6px;
       display: inline-block;
       text-align: center;
-      -webkit-transition: background 0.9s;
+      -webkit-transition: background 0.7s;
     }
 
 
@@ -108,7 +110,7 @@
       background: rgba(0,0,0,0.1);
       padding: 15px;
       border-top-left-radius: 6px;
-      -webkit-transition: background 0.9s;
+      -webkit-transition: background 0.7s;
     }
 
     .picker {
@@ -153,8 +155,8 @@
           <option value="25">25</option>
           <option value="30">30</option>
         </select></p>
-        <p class="picker">Color one: <input class="color" id="bg1" value="#000000"></p>
-        <p class="picker">Color two: <input class="color" id="bg2" value="#333333"></p>
+        <p class="picker">Color one: <input class="color {pickerClosable:true}" id="bg1" value="#000000"></p>
+        <p class="picker">Color two: <input class="color {pickerClosable:true}" id="bg2" value="#333333"></p>
       </div>
     </div>
   </div>
@@ -166,6 +168,10 @@
     var $gear = $('#gear');
     var $superuser = $('#superuser');
     var $settings = $('#settings');
+    var $rows = $('#rows');
+    var $pad = $('#pad');
+    var $bg1 = $('#bg1');
+    var $bg2 = $('#bg2');
 
     var getTags = function(hash, callback) {
       $.ajax({
