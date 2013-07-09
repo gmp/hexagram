@@ -187,13 +187,15 @@
     };
 
     var renderTags = function(tags) {
-      $tagContainer.empty();
-      tags.forEach(function(tag) {
-        var $p = $('<p class="tag">');
-        var $link = $('<a>').attr('href', '/'+tag.name).text('#' + tag.name);
-        $link.appendTo($p);
-        $p.appendTo($tagContainer);
-      });
+      if ($hashtag.val()) {
+        $tagContainer.empty();
+        tags.forEach(function(tag) {
+          var $p = $('<p class="tag">');
+          var $link = $('<a>').attr('href', '/'+tag.name).text('#' + tag.name);
+          $link.appendTo($p);
+          $p.appendTo($tagContainer);
+        });
+      }
     }
 
     var wait200 = function(fn, arg1, arg2) {
@@ -205,15 +207,13 @@
       if (text.length && text.charAt(0) !== '#') {
         $hashtag.val('#'.concat(text));
       }
-      if (text.length > 1) {
+      if (text.length > 2) {
         window.clearTimeout(timeout);
         text = text.slice(1);
         wait200(getTags, text, renderTags);
       } else if (!text.length) {
+        $tagContainer.empty();
         window.clearTimeout(timeout);
-        wait200(function() {
-          $tagContainer.empty();
-        });
       }
     });
 
