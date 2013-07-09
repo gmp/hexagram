@@ -2,18 +2,62 @@
 <head>
   <title>HexaGram</title>
   <link href="/favicon.ico" rel="icon" type="image/x-icon" />
-  <link rel="stylesheet" type="text/css" href="css/index.css">
   <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
   <script src="/js/getTags.js"></script>
+  <style type="text/css">
+    @font-face {
+      font-family: 'PT Sans Narrow';
+      font-style: normal;
+      font-weight: 400;
+      src: local('PT Sans Narrow'), local('PTSans-Narrow'), url(http://themes.googleusercontent.com/static/fonts/ptsansnarrow/v4/UyYrYy3ltEffJV9QueSi4Z4t0mJKPaLVqklzZuc32b4.woff) format('woff');
+    }
+
+    body {
+      background: url('images/honey_im_subtle_@2X.png');
+      margin: 0;
+      font-family: 'PT Sans Narrow';
+      text-align: center;
+      background-color: black;
+      color: whitesmoke;
+    }
+
+    .container {
+      height: 100%;
+      width: 100%;
+      background-color: rgba(0,0,0,0.8);
+    }
+
+    h3 {
+      padding-top: 1em;
+      font-weight: normal;
+    }
+
+    input[type=text] {
+      font-family: inherit;
+      color: whitesmoke;
+      background-color: rgba(0,0,0,0.1);
+      text-align: center;
+      width: 90%;
+      border: none;
+      font-size: 10em;
+      line-height: 1.3;
+    }
+
+    input:focus, textarea:focus {
+      outline: none;
+    }
+  </style>
 </head>
 <body>
-  <div class="hashtag-form">
-    <p>Enter a hashtag to search for images</p>
-    <form action="/hex" method="get" class="hashtagSelection">
-      <input type="text" id="hashtag" name="hashtag" placeholder="#" autocomplete="off" autofocus /><br>
-    </form>
+  <div class="container">
+    <div class="hashtag-form">
+      <h3>Enter a hashtag to search for images</h3>
+      <form action="/hex" method="get" class="hashtagSelection">
+        <input type="text" id="hashtag" name="hashtag" placeholder="#" autocomplete="off" autofocus /><br>
+      </form>
+    </div>
+    <div class="hashtag-container" id="hashtag-container"></div>
   </div>
-  <div class="hashtag-container" id="hashtag-container"></div>
 </body>
 </html>
 
@@ -47,10 +91,16 @@
   };
 
   $hashtag.on('keyup', function() {
-    if ($hashtag.val().length > 4) {
+    var text = $hashtag.val();
+    if (text.length > 1 && text.charAt(0) !== '#') {
+      $hashtag.val('#'.concat(text));
+    }
+    if (text.length > 5) {
       window.clearTimeout(timeout);
-      wait300(getTags, $hashtag.val(), renderTags);
-    } else if ($hashtag.val().length === 0) {
+      text = text.slice(1);
+      console.log('2', text);
+      wait300(getTags, text, renderTags);
+    } else if (text.length === 0) {
       window.clearTimeout(timeout);
       wait300(function() {
         $tagContainer.empty();
