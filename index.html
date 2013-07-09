@@ -16,12 +16,12 @@
     }
 
     body {
-      background: url('images/honey_im_subtle_@2X.png');
       margin: 0;
       font-family: 'PT Sans Narrow';
       text-align: center;
-      background-color: black;
       color: whitesmoke;
+      background: url('images/honey_im_subtle_@2X.png');
+      background-color: black;
     }
 
     .container {
@@ -39,15 +39,15 @@
     }
 
     input[type=text] {
-      font-family: inherit;
-      color: whitesmoke;
-      background-color: rgba(0,0,0,0.1);
-      text-align: center;
       width: 90%;
       border: none;
+      border-radius: 6px;
+      font-family: inherit;
+      text-align: center;
+      color: whitesmoke;
       font-size: 10em;
       line-height: 1.3;
-      border-radius: 6px;
+      background-color: rgba(0,0,0,0.1);
     }
 
     input:focus, textarea:focus {
@@ -55,8 +55,8 @@
     }
 
     .hashtag-container {
-      overflow: auto;
       max-height: 60%;
+      overflow: auto;
     }
 
     .tag {
@@ -76,9 +76,12 @@
       bottom: -204px;
       right: 1em;
       text-align: right;
-      -webkit-transition-property: 'top';
-      -webkit-transition-duration: 0.5s;
       text-shadow: #684F3F 2px 2px;
+      -webkit-transition: top linear 0.5s;
+      -moz-transition: top linear 0.5s;
+      -o-transition: top linear 0.5s;
+      -ms-transition: top linear 0.5s;
+      transition: top linear 0.5s;
     }
 
     .show {
@@ -90,15 +93,19 @@
     }
 
     .gear {
+      display: inline-block;
       height: 30px;
       width: 50px;
       padding-top: 6px;
-      background: rgba(0,0,0,0.1);
       border-top-left-radius: 6px;
       border-top-right-radius: 6px;
-      display: inline-block;
       text-align: center;
-      -webkit-transition: background 0.7s;
+      background: rgba(0,0,0,0.1);
+      -webkit-transition: background linear 0.7s;
+      -moz-transition: background linear 0.7s;
+      -o-transition: background linear 0.7s;
+      -ms-transition: background linear 0.7s;
+      transition: background linear 0.7s;
     }
 
 
@@ -107,10 +114,14 @@
     }
 
     .settings {
-      background: rgba(0,0,0,0.1);
       padding: 15px;
       border-top-left-radius: 6px;
-      -webkit-transition: background 0.7s;
+      background: rgba(0,0,0,0.1);
+      -webkit-transition: background linear 0.7s;
+      -moz-transition: background linear 0.7s;
+      -o-transition: background linear 0.7s;
+      -ms-transition: background linear 0.7s;
+      transition: background linear 0.7s;
     }
 
     .picker {
