@@ -196,10 +196,8 @@
     }
 
     var handleClick = function(evt) {
-      // Stop the link from navigating
       evt.preventDefault();
 
-      // Get the link and URL from the DOM
       var target =  evt.currentTarget;
       var url = target.href;
       var rows = $('#rows').val();
@@ -207,10 +205,8 @@
       var bg1 = $('#bg1').val();
       var bg2 = $('#bg2').val();
 
-      // Append the stuff
       url += '?rows='+rows+'&pad='+pad+'&bg1='+bg1+'&bg2='+bg2;
 
-      // Perform navigation
       window.location = url;
     }
 
