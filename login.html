@@ -3,16 +3,49 @@
   <title>Hexagram Login</title>
   <link href="/favicon.ico" rel="icon" type="image/x-icon" />
   <style type="text/css">
-    .login-button {
+
+    @font-face {
+      font-family: 'PT Sans Narrow';
+      font-style: normal;
+      font-weight: 400;
+      src: local('PT Sans Narrow'), local('PTSans-Narrow'), url(http://themes.googleusercontent.com/static/fonts/ptsansnarrow/v4/UyYrYy3ltEffJV9QueSi4Z4t0mJKPaLVqklzZuc32b4.woff) format('woff');
+    }
+
+    body {
+      background: url('images/honey_im_subtle_@2X.png');
+      margin: 0;
+    }
+
+    .container {
+      height: 100%;
+      width: 100%;
+      background-color: rgba(0,0,0,0.8);
+    }
+
+    h1 {
+      font-size: 9em;
+      margin: 0 0 21px 0;
+      text-shadow: #684F3F 2px 2px;
+    }
+
+    .welcome {
+      font-family: 'PT Sans Narrow';
+      text-align: center;
+      color: #2A7BFE;
       position: absolute;
       top: 50%;
       left: 50%;
-      margin-left: -100px;
-      margin-top: -14.5px;
+      margin-left: -260.5px;
+      margin-top: -143.5px;
     }
   </style>
 </head>
 <body>
-  <a class="login-button" href="/auth/instagram"><img src="images/Instagram_normal.png"></a>
+  <div class="container">
+    <div class="welcome">
+      <h1>Hexagram</h1>
+      <a class="login-button" href="/auth/instagram"><img src="images/Instagram_normal.png"></a>
+    </div>
+  </div>
 </body>
 </html>
