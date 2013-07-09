@@ -168,10 +168,6 @@
     var $gear = $('#gear');
     var $superuser = $('#superuser');
     var $settings = $('#settings');
-    var $rows = $('#rows');
-    var $pad = $('#pad');
-    var $bg1 = $('#bg1');
-    var $bg2 = $('#bg2');
 
     var getTags = function(hash, callback) {
       $.ajax({
@@ -191,11 +187,31 @@
         $tagContainer.empty();
         tags.forEach(function(tag) {
           var $p = $('<p class="tag">');
-          var $link = $('<a>').attr('href', '/'+tag.name).text('#' + tag.name);
+          var $link = $('<a>').attr({'href': '/'+tag.name}).text('#' + tag.name);
+          $link.onclick = 'handleClick()';
           $link.appendTo($p);
           $p.appendTo($tagContainer);
         });
       }
+    }
+
+    var handleClick = function(evt) {
+      // Stop the link from navigating
+      evt.preventDefault();
+
+      // Get the link and URL from the DOM
+      var target =  evt.currentTarget;
+      var url = target.href;
+      var rows = $('#rows').val();
+      var pad = $('#pad').val();
+      var bg1 = $('#bg1').val();
+      var bg2 = $('#bg2').val();
+
+      // Append the stuff
+      url += '?rows='+rows+'&pad='+pad+'&bg1='+bg1+'&bg2='+bg2;
+
+      // Perform navigation
+      window.location = url;
     }
 
     var wait200 = function(fn, arg1, arg2) {
@@ -222,6 +238,8 @@
       $gear.toggleClass('dark');
       $settings.toggleClass('dark');
     });
+
+    $tagContainer.on('click', 'a', handleClick);
 
   </script>
 </body>
