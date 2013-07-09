@@ -2,6 +2,19 @@ var HoneycombGallery;
 
 (function() {
 
+  // query string parse for params
+  var getQueryParam = function(param) {
+    var query = window.location.search;
+    query = query.slice(1);
+    var params = query.split('&');
+    for (var i = 0; i < params.length; i++) {
+      var pair = params[i].split('=');
+      if (pair[0] === param) {
+        return pair[1];
+      }
+    }
+  };
+
   // zero out scroll onload
   var zeroOut = function() {
     window.scroll(0, 0);
@@ -39,9 +52,12 @@ var HoneycombGallery;
     allowVideo: true,
     highRes: false,
     feature: true,
-    numRows: 5,
-    padding: 10,
-    topRow: {},
+    numRows: Number(getQueryParam('rows')),
+    padding: Number(getQueryParam('pad')),
+    topRow: {
+      backgroundOne: '#' + getQueryParam('bg1'),
+      backgroundTwo: '#' + getQueryParam('bg2')
+    },
     bottomRow: {}
   };
 
