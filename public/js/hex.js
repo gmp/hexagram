@@ -13,7 +13,13 @@ var HoneycombGallery;
         return pair[1];
       }
     }
+    return;
   };
+
+  var rows = getQueryParam('rows') || 4;
+  var pad = getQueryParam('pad') || 10;
+  var bg1 = getQueryParam('bg1') || 'rgba(0,0,0,0.8)';
+  var bg2 = getQueryParam('bg2') || 'rgba(0,0,0,0.8)';
 
   // zero out scroll onload
   var zeroOut = function() {
@@ -52,11 +58,11 @@ var HoneycombGallery;
     allowVideo: true,
     highRes: false,
     feature: true,
-    numRows: Number(getQueryParam('rows')),
-    padding: Number(getQueryParam('pad')),
+    numRows: rows,
+    padding: pad,
     topRow: {
-      backgroundOne: '#' + getQueryParam('bg1'),
-      backgroundTwo: '#' + getQueryParam('bg2')
+      backgroundOne: bg1,
+      backgroundTwo: bg2
     },
     bottomRow: {}
   };
