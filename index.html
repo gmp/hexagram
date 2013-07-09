@@ -2,14 +2,53 @@
 <head>
   <title>HexaGram</title>
   <link href="/favicon.ico" rel="icon" type="image/x-icon" />
+  <link rel="stylesheet" type="text/css" href="css/index.css">
+  <script src="/js/getTags.js"></script>
 </head>
 <body>
-  <div class="hashtag">
-    <p>Enter a hashtag to search for images</p>
-    <form action="/hex" method="get">
-      <input type="text" name="hashtag" placeholder="#SFGiants" autofocus /><br>
-      <input type="submit" value="Submit" />
+  <div class="hashtag-form">
+    <!-- <p>Enter a hashtag to search for images</p> -->
+    <form action="/hex" method="get" class="hashtagSelection">
+      <input type="text" id="hashtag" name="hashtag" placeholder="Enter a hashtag to search for images" autocomplete="off" autofocus /><br>
+      <button type="submit">Go go go!</button>
     </form>
   </div>
+  <div class="hashtag-container" id="hashtag-container"></div>
 </body>
 </html>
+
+<script>
+  var timeout;
+  var $hashtag = $('#hashtag');
+  var $tagContainer = $('#hashtag-container');
+
+  var getTags = function(hash, callback) {
+    $.ajax({
+      url: '/api/tags/' + hash,
+      success: function(response){
+        console.log(response);
+        callback.call(self, response.tags);
+      },
+      error: function(error) {
+        console.log(error);
+      }
+    });
+  };
+
+  var renderTags = function(tags) {
+    tags.forEach(function(tag) {
+      $('<p class="tag">').text('#' + tag).appendTo($tagContainer);
+    });
+  }
+
+  var wait600 = function(fn) {
+    var args = Array.protoype.slice.call(arguments, 1);
+    timeout = window.setTimeout(fn, 600, args);
+  };
+
+  $hashtag.on('keyup', function() {
+    window.clearTimeout(timeout);
+    wait600(getTags, $hashtag.val(), renderTags);
+  });
+
+</script>

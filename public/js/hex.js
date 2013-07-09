@@ -107,7 +107,7 @@ var HoneycombGallery;
     // jQuery ajax request with callback on success
     // set honeycomb image collection to response
     $.ajax({
-      url: '/api' + window.location.pathname,
+      url: '/api/images' + window.location.pathname,
       data: data,
       success: function(response){
         console.log(response);
