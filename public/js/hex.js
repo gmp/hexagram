@@ -16,6 +16,7 @@ var HoneycombGallery;
     return;
   };
 
+  // use query string parse to get hex options
   var rows = Number(getQueryParam('rows')) || 5;
   var pad = Number(getQueryParam('pad')) || 10;
   var bg1 = getQueryParam('bg1');
@@ -32,9 +33,10 @@ var HoneycombGallery;
   HoneycombGallery = function(options) {
 
     // extend default options with options provided by user
+    // note: this was meant for use with other 3rd party API
     $.extend(this.options, options);
 
-    // grab honeycomb elements
+    // grab reference honeycomb elements
     this.$body = $('body');
     this.$honeycomb = $('.honeycomb');
     this.$featured = $('.featured');
@@ -78,9 +80,6 @@ var HoneycombGallery;
   // intialize honeycomb
   HoneycombGallery.prototype.init = function() {
 
-    // context for setTimeout/setInterval functions
-    var self = this;
-
     // set honeycomb height to window height
     this.$honeycomb.css({'height': this.dimensions.windowHeight});
 
@@ -102,21 +101,15 @@ var HoneycombGallery;
     this.getImages(this.renderHoneycomb);
 
     // allow the page 2 seconds to load before starting auto-scroll
-    setTimeout(function(){
-      self.electricSlide();
-    }, 2000);
+    setTimeout(this.electricSlide.bind(this), 2000);
 
     // begin highlighting images every 10 seconds if option set to true
     if (self.options.feature) {
-      setTimeout(function() {
-        self.highlightImg();
-      }, 10000);
+      setTimeout(this.highlightImg.bind(this), 10000);
     }
 
     // setInterval to restart get more images process every 5 minutes
-    setInterval(function() {
-      self.getImages(self.addToHoneyComb);
-    }, 60000 * 5);
+    setInterval(this.getImages.bind(this, this.addToHoneyComb), 60000 * 5);
   };
 
 
@@ -163,10 +156,10 @@ var HoneycombGallery;
 
     $topRow = $('<div class="hex-row" id="top-row" style="top:'+(-((this.dimensions.hexHeight/2) + (this.options.padding/Math.sqrt(3)/2)))+'px;"></div>');
 
-    if (this.options.numRows % 2) {
-      $bottomRow = $('<div class="hex-row" id="bottom-row" style="top:'+(this.options.numRows * ((this.dimensions.hexHeight/2) + (this.options.padding/Math.sqrt(3)/2)))+'px;"></div>');
-    } else {
-      $bottomRow = $('<div class="hex-row" id="bottom-row" style="top:'+(this.options.numRows * ((this.dimensions.hexHeight/2) + (this.options.padding/Math.sqrt(3)/2)))+'px; left:'+(this.dimensions.hexWidth/2)+'px"></div>');
+    $bottomRow = $('<div class="hex-row" id="bottom-row" style="top:'+(this.options.numRows * ((this.dimensions.hexHeight/2) + (this.options.padding/Math.sqrt(3)/2)))+'px;"></div>');
+
+    if (!this.options.numRows % 2) {
+      $bottomRow.css('left', (this.dimensions.hexWidth/2)+'px');
     }
 
     for (var i = 0; i < this.options.numRows; i++) {
