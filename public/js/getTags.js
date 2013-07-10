@@ -35,11 +35,14 @@ $(function() {
   var $gear = $('#gear');
   var $superuser = $('#superuser');
   var $settings = $('#settings');
+  var $spinner = $('#spinner');
 
   var getTags = function(hash, callback) {
+    $spinner.show();
     $.ajax({
       url: '/api/tags/' + hash,
       success: function(response){
+        $spinner.hide();
         callback.call(self, response.tags);
       },
       error: function(error) {
