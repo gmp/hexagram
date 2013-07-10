@@ -104,7 +104,7 @@ var HoneycombGallery;
     setTimeout(this.electricSlide.bind(this), 2000);
 
     // begin highlighting images every 10 seconds if option set to true
-    if (self.options.feature) {
+    if (this.options.feature) {
       setTimeout(this.highlightImg.bind(this), 10000);
     }
 
