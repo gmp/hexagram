@@ -1,13 +1,17 @@
 var tag;
 var timeout;
 
+var wait200 = function(fn, arg1, arg2) {
+  timeout = window.setTimeout(fn, 200, arg1, arg2);
+};
+
 var handleSubmit = function(evt) {
 
   if (evt) {
     evt.preventDefault();
   }
 
-  var hashtag = $hashtag.val();
+  var hashtag = $(evt.target).data('tag') || $('#hashtag').val();
   hashtag = hashtag.slice(1);
   var url = '' + hashtag;
   var rows = $('#rows').val();
@@ -18,10 +22,8 @@ var handleSubmit = function(evt) {
   url += '?rows='+rows+'&pad='+pad+'&bg1='+bg1+'&bg2='+bg2;
 
   window.location = url;
-};
 
-var wait200 = function(fn, arg1, arg2) {
-  timeout = window.setTimeout(fn, 200, arg1, arg2);
+  return false;
 };
 
 $(function() {
@@ -48,7 +50,7 @@ $(function() {
       $tagContainer.empty();
       tags.forEach(function(tag) {
         var $p = $('<p class="tag">');
-        var $link = $('<a>').attr({'href': '/'+tag.name}).text('#' + tag.name);
+        var $link = $('<a>').attr('href', '/'+tag.name).text('#' + tag.name).data('tag', '#' + tag.name);
         $link.appendTo($p);
         $p.appendTo($tagContainer);
       });
