@@ -12,6 +12,7 @@ For your viewing pleasure:
 ### Description:
 What began as a challenge from a local company, ended up as brand new way to experience Instagram images and videos...or any collection of images and video for that matter. When given the opportunity to explore ways of dynamically displaying a feed of images, I chose to create a hexagonal tesselation. After plenty of time spent revisiting geometry from years past, it became clear that hexagons in the browser are quite tricky.
 
+For more on the story behind the development, <a href="http://gpalmer.me/blog/2013/07/05/hexagram/" target="_blank">check out my blog!</a>
 
 ---
 ### Options:
