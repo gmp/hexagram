@@ -134,7 +134,6 @@ var HoneycombGallery;
       url: '/api/images' + window.location.pathname,
       data: data,
       success: function(response){
-        console.log(response);
         self._imgCollection = self._imgCollection.concat(response.media);
         callback.call(self, response.media);
         if (self.requestCounter) {
@@ -143,7 +142,7 @@ var HoneycombGallery;
         }
       },
       error: function(error) {
-        console.log(error);
+        console.error(error);
       }
     });
   };
@@ -432,7 +431,6 @@ var HoneycombGallery;
       setTimeout(function() {
         self.highlightImg();
       }, 5000);
-      console.log('no images in the collection!');
     }
   };
 

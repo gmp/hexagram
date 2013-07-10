@@ -1,31 +1,6 @@
 var tag;
 var timeout;
 
-var getTags = function(hash, callback) {
-  $.ajax({
-    url: '/api/tags/' + hash,
-    success: function(response){
-      console.log(response);
-      callback.call(self, response.tags);
-    },
-    error: function(error) {
-      console.log(error);
-    }
-  });
-};
-
-var renderTags = function(tags) {
-  if ($hashtag.val()) {
-    $tagContainer.empty();
-    tags.forEach(function(tag) {
-      var $p = $('<p class="tag">');
-      var $link = $('<a>').attr({'href': '/'+tag.name}).text('#' + tag.name);
-      $link.appendTo($p);
-      $p.appendTo($tagContainer);
-    });
-  }
-};
-
 var handleSubmit = function(evt) {
 
   if (evt) {
@@ -55,6 +30,30 @@ $(function() {
   var $gear = $('#gear');
   var $superuser = $('#superuser');
   var $settings = $('#settings');
+
+  var getTags = function(hash, callback) {
+    $.ajax({
+      url: '/api/tags/' + hash,
+      success: function(response){
+        callback.call(self, response.tags);
+      },
+      error: function(error) {
+        console.error(error);
+      }
+    });
+  };
+
+  var renderTags = function(tags) {
+    if ($hashtag.val()) {
+      $tagContainer.empty();
+      tags.forEach(function(tag) {
+        var $p = $('<p class="tag">');
+        var $link = $('<a>').attr({'href': '/'+tag.name}).text('#' + tag.name);
+        $link.appendTo($p);
+        $p.appendTo($tagContainer);
+      });
+    }
+  };
 
   $hashtag.on('keyup', function() {
     var text = $hashtag.val();
