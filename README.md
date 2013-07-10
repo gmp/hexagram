@@ -10,7 +10,7 @@ For your viewing pleasure:
 
 ---
 ### Description:
-What began as a challenge from a local company, ended up as brand new way to experience Instagram images and videos...or any collection of images and video at that. When given the opportunity to explore ways of dynamically displaying a feed of images, I chose to create a hexagonal display. After plenty of revisiting geometry from years past, it became clear that hexagons in the browser are quite tricky
+What began as a challenge from a local company, ended up as brand new way to experience Instagram images and videos...or any collection of images and video for that matter. When given the opportunity to explore ways of dynamically displaying a feed of images, I chose to create a hexagonal tesselation. After plenty of time spent revisiting geometry from years past, it became clear that hexagons in the browser are quite tricky.
 
 
 ---
