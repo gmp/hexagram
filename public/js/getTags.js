@@ -6,14 +6,17 @@ var wait200 = function(fn, arg1, arg2) {
 };
 
 var handleSubmit = function(evt) {
+  var hashtag;
 
   if (evt) {
     evt.preventDefault();
+    hashtag = $(evt.target).data('tag');
+  } else {
+    hashtag = $('#hashtag').val();
+    hashtag = hashtag.slice(1);
   }
 
-  var hashtag = $(evt.target).data('tag') || $('#hashtag').val();
-  hashtag = hashtag.slice(1);
-  var url = '' + hashtag;
+  var url = '/' + hashtag;
   var rows = $('#rows').val();
   var pad = $('#pad').val();
   var bg1 = $('#bg1').val();
@@ -50,7 +53,7 @@ $(function() {
       $tagContainer.empty();
       tags.forEach(function(tag) {
         var $p = $('<p class="tag">');
-        var $link = $('<a>').attr('href', '/'+tag.name).text('#' + tag.name).data('tag', '#' + tag.name);
+        var $link = $('<a>').attr('href', '/'+tag.name).text('#' + tag.name).data('tag', tag.name);
         $link.appendTo($p);
         $p.appendTo($tagContainer);
       });
