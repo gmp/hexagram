@@ -10,7 +10,7 @@ body {
   font-family: 'PT Sans Narrow';
   text-align: center;
   color: whitesmoke;
-  background: url('images/honey_im_subtle_@2X.png');
+  background: url('../images/honey_im_subtle_@2X.png');
   background-color: black;
 }
 
