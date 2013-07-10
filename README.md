@@ -5,6 +5,9 @@ Hexagram!
 
 A fullscreen, scrolling honeycomb-style image collage hooked up with the Instagram API
 
+For your viewing pleasure:
+<a href="http://hexagram.gpalmer.me">http://hexagram.gpalmer.me</a>
+
 ---
 ### Feature Roadmap:
 
