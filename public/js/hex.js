@@ -358,8 +358,8 @@ var HoneycombGallery;
     var self = this;
 
 
-    if (self._imgCollection.length) {
-      var random = Math.floor(Math.random() * self._imgCollection.length),
+    if (this._imgCollection.length) {
+      var random = Math.floor(Math.random() * this._imgCollection.length),
           media = this._imgCollection[random],
           rotate = Math.floor(Math.random() * 2) ? Math.random() * 11 : Math.random() * -11,
           $media,
