@@ -4,140 +4,10 @@
   <link href="/images/favicon.ico" rel="icon" type="image/x-icon" />
   <link rel="stylesheet" type="text/css" href="http://necolas.github.io/normalize.css/2.1.2/normalize.css" />
   <link href="http://netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" href="css/index.css" rel="stylesheet">
   <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
   <script src="/js/getTags.js"></script>
   <script src="/jscolor/jscolor-min.js"></script>
-  <style type="text/css">
-    @font-face {
-      font-family: 'PT Sans Narrow';
-      font-style: normal;
-      font-weight: 400;
-      src: local('PT Sans Narrow'), local('PTSans-Narrow'), url(http://themes.googleusercontent.com/static/fonts/ptsansnarrow/v4/UyYrYy3ltEffJV9QueSi4Z4t0mJKPaLVqklzZuc32b4.woff) format('woff');
-    }
-
-    body {
-      margin: 0;
-      font-family: 'PT Sans Narrow';
-      text-align: center;
-      color: whitesmoke;
-      background: url('images/honey_im_subtle_@2X.png');
-      background-color: black;
-    }
-
-    .container {
-      height: 100%;
-      width: 100%;
-      background-color: rgba(0,0,0,0.8);
-    }
-
-    h3 {
-      margin: 0;
-      padding-bottom: 1em;
-      padding-top: 1em;
-      font-weight: normal;
-      text-shadow: #684F3F 2px 2px;
-    }
-
-    input[type=text] {
-      width: 90%;
-      border: none;
-      border-radius: 6px;
-      font-family: inherit;
-      text-align: center;
-      color: whitesmoke;
-      font-size: 10em;
-      line-height: 1.3;
-      background-color: rgba(0,0,0,0.1);
-    }
-
-    input:focus, textarea:focus {
-      outline: none;
-    }
-
-    .hashtag-container {
-      max-height: 60%;
-      overflow: auto;
-    }
-
-    .tag {
-      display: inline-block;
-      margin: 1em;
-      font-size: 1.5em;
-      text-shadow: #684F3F 2px 2px;
-    }
-
-    a {
-      text-decoration: none;
-      color: whitesmoke;
-    }
-
-    .superuser {
-      position: fixed;
-      bottom: -204px;
-      right: 1em;
-      text-align: right;
-      text-shadow: #684F3F 2px 2px;
-      -webkit-transition-property: 'top' linear 0.5s;
-      -moz-transition-property: 'top' linear 0.5s;
-      -o-transition-property: 'top' linear 0.5s;
-      -ms-transition-property: 'top' linear 0.5s;
-      transition-property: 'top' linear 0.5s;
-      -webkit-transition-duration: 0.5s;
-      -moz-transition-duration: 0.5s;
-      -o-transition-duration: 0.5s;
-      -ms-transition-duration: 0.5s;
-      transition-duration: 0.5s;
-    }
-
-    .show {
-      bottom: 0;
-    }
-
-    .dark {
-      background: rgba(0,0,0,0.9) !important;
-    }
-
-    .gear {
-      display: inline-block;
-      height: 30px;
-      width: 50px;
-      padding-top: 6px;
-      border-top-left-radius: 6px;
-      border-top-right-radius: 6px;
-      text-align: center;
-      background: rgba(0,0,0,0.1);
-      -webkit-transition: background linear 0.7s;
-      -moz-transition: background linear 0.7s;
-      -o-transition: background linear 0.7s;
-      -ms-transition: background linear 0.7s;
-      transition: background linear 0.7s;
-    }
-
-
-    .cog {
-      font-size: 1.5em;
-    }
-
-    .settings {
-      padding: 15px;
-      border-top-left-radius: 6px;
-      background: rgba(0,0,0,0.1);
-      -webkit-transition: background linear 0.7s;
-      -moz-transition: background linear 0.7s;
-      -o-transition: background linear 0.7s;
-      -ms-transition: background linear 0.7s;
-      transition: background linear 0.7s;
-    }
-
-    .picker {
-      text-align: left;
-    }
-
-    select {
-      margin-left: 10px;
-    }
-
-  </style>
 </head>
 <body>
   <div class="container">
@@ -177,84 +47,88 @@
     </div>
   </div>
   <script>
-    var tag;
-    var timeout;
-    var $hashtag = $('#hashtag');
-    var $tagContainer = $('#hashtag-container');
-    var $gear = $('#gear');
-    var $superuser = $('#superuser');
-    var $settings = $('#settings');
 
-    var getTags = function(hash, callback) {
-      $.ajax({
-        url: '/api/tags/' + hash,
-        success: function(response){
-          console.log(response);
-          callback.call(self, response.tags);
-        },
-        error: function(error) {
-          console.log(error);
+    (function() {
+      
+      var tag;
+      var timeout;
+      var $hashtag = $('#hashtag');
+      var $tagContainer = $('#hashtag-container');
+      var $gear = $('#gear');
+      var $superuser = $('#superuser');
+      var $settings = $('#settings');
+
+      var getTags = function(hash, callback) {
+        $.ajax({
+          url: '/api/tags/' + hash,
+          success: function(response){
+            console.log(response);
+            callback.call(self, response.tags);
+          },
+          error: function(error) {
+            console.log(error);
+          }
+        });
+      };
+
+      var renderTags = function(tags) {
+        if ($hashtag.val()) {
+          $tagContainer.empty();
+          tags.forEach(function(tag) {
+            var $p = $('<p class="tag">');
+            var $link = $('<a>').attr({'href': '/'+tag.name}).text('#' + tag.name);
+            $link.appendTo($p);
+            $p.appendTo($tagContainer);
+          });
+        }
+      }
+
+      var handleSubmit = function(evt) {
+
+        if (evt) {
+          evt.preventDefault();
+        }
+
+        var hashtag = $hashtag.val();
+        hashtag = hashtag.slice(1);
+        var url = '' + hashtag;
+        var rows = $('#rows').val();
+        var pad = $('#pad').val();
+        var bg1 = $('#bg1').val();
+        var bg2 = $('#bg2').val();
+
+        url += '?rows='+rows+'&pad='+pad+'&bg1='+bg1+'&bg2='+bg2;
+
+        window.location = url;
+      }
+
+      var wait200 = function(fn, arg1, arg2) {
+        timeout = window.setTimeout(fn, 200, arg1, arg2);
+      };
+
+      $hashtag.on('keyup', function() {
+        var text = $hashtag.val();
+        if (text.length && text.charAt(0) !== '#') {
+          $hashtag.val('#'.concat(text));
+        }
+        if (text.length > 2) {
+          window.clearTimeout(timeout);
+          text = text.slice(1);
+          wait200(getTags, text, renderTags);
+        } else if (!text.length) {
+          $tagContainer.empty();
+          window.clearTimeout(timeout);
         }
       });
-    };
 
-    var renderTags = function(tags) {
-      if ($hashtag.val()) {
-        $tagContainer.empty();
-        tags.forEach(function(tag) {
-          var $p = $('<p class="tag">');
-          var $link = $('<a>').attr({'href': '/'+tag.name}).text('#' + tag.name);
-          $link.appendTo($p);
-          $p.appendTo($tagContainer);
-        });
-      }
-    }
+      $gear.on('click', function() {
+        $superuser.toggleClass('show');
+        $gear.toggleClass('dark');
+        $settings.toggleClass('dark');
+      });
 
-    var handleSubmit = function(evt) {
-
-      if (evt) {
-        evt.preventDefault();
-      }
-
-      var hashtag = $hashtag.val();
-      hashtag = hashtag.slice(1);
-      var url = '' + hashtag;
-      var rows = $('#rows').val();
-      var pad = $('#pad').val();
-      var bg1 = $('#bg1').val();
-      var bg2 = $('#bg2').val();
-
-      url += '?rows='+rows+'&pad='+pad+'&bg1='+bg1+'&bg2='+bg2;
-
-      window.location = url;
-    }
-
-    var wait200 = function(fn, arg1, arg2) {
-      timeout = window.setTimeout(fn, 200, arg1, arg2);
-    };
-
-    $hashtag.on('keyup', function() {
-      var text = $hashtag.val();
-      if (text.length && text.charAt(0) !== '#') {
-        $hashtag.val('#'.concat(text));
-      }
-      if (text.length > 2) {
-        window.clearTimeout(timeout);
-        text = text.slice(1);
-        wait200(getTags, text, renderTags);
-      } else if (!text.length) {
-        $tagContainer.empty();
-        window.clearTimeout(timeout);
-      }
-    });
-
-    $gear.on('click', function() {
-      $superuser.toggleClass('show');
-      $gear.toggleClass('dark');
-      $settings.toggleClass('dark');
-    });
-
-    $tagContainer.on('click', 'a', handleSubmit);
+      $tagContainer.on('click', 'a', handleSubmit);
+    }())
 
   </script>
 </body>
