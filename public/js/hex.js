@@ -42,7 +42,6 @@ var HoneycombGallery;
     this.$featured = $('.featured');
     this.$border = $('<div class="border">');
 
-
     // collection of current images
     this._imgCollection = [];
 
@@ -86,7 +85,6 @@ var HoneycombGallery;
     // set body width to expand as long as needed
     this.$body.css({'width' : '999999999999px'});
 
-
     // calculate hexagon height
     // h = 2windowHeight / numRows + 1
     // to account for padding we first subtract half of one side of the equalateral triangle created by each tesselation
@@ -111,7 +109,6 @@ var HoneycombGallery;
     // setInterval to restart get more images process every 5 minutes
     setInterval(this.getImages.bind(this, this.addToHoneyComb), 60000 * 5);
   };
-
 
   HoneycombGallery.prototype.getImages = function(callback, data) {
 
@@ -139,7 +136,6 @@ var HoneycombGallery;
       }
     });
   };
-
 
   HoneycombGallery.prototype.renderHoneycomb = function(images) {
     var media,
@@ -266,7 +262,6 @@ var HoneycombGallery;
         $bottomRow = $('#bottom-row'),
         counter = 0;
 
-
     for (var i = 0; i < this.options.numRows; i++) {
 
       $row = $('#row-'+i);
@@ -356,7 +351,6 @@ var HoneycombGallery;
 
     // context for setTimeout
     var self = this;
-
 
     if (this._imgCollection.length) {
       var random = Math.floor(Math.random() * this._imgCollection.length),
